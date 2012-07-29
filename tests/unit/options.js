@@ -1061,6 +1061,22 @@ exports.scope = function () {
         .test(src, { funcscope: true });
 };
 
+exports.strobj = function () {
+    var src = fs.readFileSync(__dirname + '/fixtures/strobj.js', 'utf8');
+
+    TestRun(1)
+        .addError(3, 'Do not use String as a constructor.')
+        .addError(6, 'Do not use Number as a constructor.')
+        .addError(9, 'Do not use Boolean as a constructor.')
+        .addError(12, 'Do not use JSON as a constructor.')
+        .test(src);
+
+    TestRun(2)
+        .addError(9, 'Do not use Boolean as a constructor.')
+        .addError(12, 'Do not use JSON as a constructor.')
+        .test(src, { strobj: true });
+};
+
 /*
  * Tests the `esnext` option
  */

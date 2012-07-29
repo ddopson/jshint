@@ -223,7 +223,7 @@
  reserved, resizeBy, resizeTo, resolvePath, resumeUpdates, respond, rhino, right,
  runCommand, scroll, screen, scripturl, scrollBy, scrollTo, scrollbar, search, seal, self,
  send, serialize, sessionStorage, setInterval, setTimeout, setter, setterToken, shift, slice,
- smarttabs, sort, spawn, split, stack, status, start, strict, sub, substr, supernew, shadow,
+ smarttabs, sort, spawn, split, stack, status, start, strict, strobj, sub, substr, supernew, shadow,
  supplant, sum, sync, test, toLowerCase, toString, toUpperCase, toint32, token, top, trailing,
  type, typeOf, Uint16Array, Uint32Array, Uint8Array, undef, undefs, unused, urls, validthis,
  value, valueOf, var, vars, version, WebSocket, withstmt, white, window, windows, Worker, worker,
@@ -321,6 +321,7 @@ var JSHINT = (function () {
             smarttabs   : true, // if smarttabs should be tolerated
                                 // (http://www.emacswiki.org/emacs/SmartTabs)
             strict      : true, // require the "use strict"; pragma
+            strobj      : true, // allow "new String()" and "new Number()"
             sub         : true, // if all forms of subscript notation are tolerated
             supernew    : true, // if `new function () { ... };` and `new Object;`
                                 // should be tolerated
@@ -3122,6 +3123,10 @@ loop:   for (;;) {
                 switch (c.value) {
                 case 'Number':
                 case 'String':
+                    if (!option.strobj) {
+                        warning("Do not use {a} as a constructor.", token, c.value);
+                    }
+                    break;
                 case 'Boolean':
                 case 'Math':
                 case 'JSON':
